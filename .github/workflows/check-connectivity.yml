@@ -1,0 +1,26 @@
+name: Check Connectivity
+
+on:
+  schedule:
+    - cron: '*/1 * * * *'
+  push:
+
+jobs:
+  check:
+    runs-on: ubuntu-letest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: action/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Ansible
+        run: |
+          sudo apt update
+          sudo apt install -y ansible
+
+      - name: Run Ansible Playbook
+        run: ansible-playbook check_sta.yml
